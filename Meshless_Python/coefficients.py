@@ -1,9 +1,8 @@
-import basis as b
-import basismatrix as bm
+import src.basis.d2d.polynomial_basis as pb
 import numpy as np
 from numpy import linalg as la
 import minimumradius as mr
-import weightmatrix as wm
+from src.helpers import weightmatrix as wm
 
 
 def coefficients(data, point, basis_order, contour_point, derivative=None):
@@ -12,7 +11,8 @@ def coefficients(data, point, basis_order, contour_point, derivative=None):
     r = mr.get_radius(data, point, m, contour_point)
 
     while True:
-        P = bm.create_basis(basis, data, point, r)  # Basis matrix
+        P = pb.Polynomial(2)
+            bm.create_basis(basis, data, point, r)  # Basis matrix
         Pt = np.transpose(P)
         weight_ = wm.W(data, point, r)
         pt = bm.create_basis(basis, [point])
@@ -34,18 +34,15 @@ def coefficients(data, point, basis_order, contour_point, derivative=None):
 
             # For dx or dy
 
-            dptd_ = bm.create_basis(derivative['base1'], [point])
-            dWd_ = wm.W(data, point, r, {
-                'order': 1,
-                'var': derivative['var']
-            })
+            dptd_ = bm.create_basis(derivative, [point])
+            dWd_ = wm.W(data, point, r, derivative)
             dAd_ = Pt @ dWd_ @ P
             dBd_ = Pt @ dWd_
             invA = la.inv(A)  # A inverse
 
             # For dx² or dy²
 
-            dptd_2 = bm.create_basis(derivative['base2'], [point])
+            dptd_2 = bm.create_basis(derivative, [point])
             d2Wd_ = wm.W(data, point, r, {
                 'order': 2,
                 'var': derivative['var']
@@ -57,18 +54,9 @@ def coefficients(data, point, basis_order, contour_point, derivative=None):
             dptd_x = bm.create_basis(b.pde_basis(basis_order)[1], [point])
             dptd_y = bm.create_basis(b.pde_basis(basis_order)[2], [point])
 
-            dxyWd_ = wm.W(data, point, r, {
-                'order': 2,
-                'var': derivative['var']
-            })
-            dxWd_ = wm.W(data, point, r, {
-                'order': 1,
-                'var': 'x'
-            })
-            dyWd_ = wm.W(data, point, r, {
-                'order': 1,
-                'var': 'y'
-            })
+            dxyWd_ = wm.W(data, point, r, derivative)
+            dxWd_ = wm.W(data, point, r, 'x')
+            dyWd_ = wm.W(data, point, r, 'y')
 
             dxyBd = Pt @ dxyWd_
             dxBd = Pt @ dxWd_

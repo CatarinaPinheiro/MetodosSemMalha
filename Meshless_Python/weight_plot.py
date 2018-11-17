@@ -1,4 +1,4 @@
-import weight as w
+from src.helpers import weight as w
 import matplotlib.pyplot as plt
 import numpy as np
 

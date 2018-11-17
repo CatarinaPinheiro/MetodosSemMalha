@@ -1,4 +1,4 @@
-import collocation_potential as cp
+import galerkin_potential as cp
 import result_vector_potential as rvp
 import nodalcoordinates as nc
 from scipy import linalg as la
