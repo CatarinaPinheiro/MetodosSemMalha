@@ -2,7 +2,7 @@ import coefficients as c
 import basis as b
 import pdefunc_potential as pdefunc
 import numpy as np
-import gaussian_quadrature as gq
+from src.helpers import gaussian_quadrature as gq
 import minimumradius as mr
 
 pde_base_x = b.pde_basis(1)[1]
