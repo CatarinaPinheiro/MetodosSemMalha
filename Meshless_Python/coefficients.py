@@ -6,10 +6,10 @@ import minimumradius as mr
 import weightmatrix as wm
 
 
-def coefficients(data, point, basis_order, contour_point, derivative=None):
+def coefficients(data, point, basis_order, derivative=None):
     basis = b.pde_basis(basis_order)[0]
     m = len(basis)
-    r = mr.get_radius(data, point, m, contour_point)
+    r = mr.get_radius(data, point, m)
 
     while True:
         P = bm.create_basis(basis, data, point, r)  # Basis matrix
@@ -28,6 +28,11 @@ def coefficients(data, point, basis_order, contour_point, derivative=None):
             pass
 
         if not derivative:
+            print('A = ', A)
+            print('B = ', B)
+            print('P = ', P)
+            print('r = ', r)
+            print('W = ', weight_)
             return pt @ la.inv(A) @ B
 
         else:
