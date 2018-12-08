@@ -1,4 +1,5 @@
-from src.helpers import weight as w, weightmatrix as wm
+from src.helpers import weight as w
+from test.helpers import weightmatrix_test as wm
 import numpy as np
 
 # Error Test - Gaussian with radius function:

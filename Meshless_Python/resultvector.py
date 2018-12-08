@@ -1,4 +1,4 @@
-import pdefunction as pdefunc
+from src.models import pdefunction as pdefunc
 
 
 def b_matrix(data, first_x, last_x, first_y, last_y):

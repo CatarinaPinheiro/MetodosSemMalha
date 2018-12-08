@@ -30,11 +30,26 @@ class PolynomialBasis:  # Defines basis configuration of pde.
         else:
             input('Pde order: ')
 
-    def matrix(self, data, point=None, r=None):
-        P = []
+    def matrix(self,  data, point=None, r=None,  derivative=None):
+        if derivative is None:
+            basis = self.basis
+        elif derivative == 'x':
+            basis = self.basis_x
+        elif derivative == 'xx':
+            basis = self.basis_xx
+        elif derivative == 'y':
+            basis = self.basis_y
+        elif derivative == 'yy':
+            basis = self.basis_yy
+        elif derivative == 'xy':
+            basis = self.basis_xy
+        else:
+            basis = input('Basis: ')
+
+        P = []  # P = Basis function
         for dat in data:
             row = []
-            for b in self.basis:
+            for b in basis:
                 [x, y] = dat[0:2]
                 if point is not None and la.norm(np.subtract(point, [x, y])) > r:
                     row.append(0)

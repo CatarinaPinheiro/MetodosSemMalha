@@ -1,5 +1,5 @@
 import numpy as np
-from src.helpers import weightmatrix as wm
+from test.helpers import weightmatrix_test as wm
 from numpy import linalg as la
 import basismatrix as bm
 import basis as b

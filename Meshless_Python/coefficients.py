@@ -2,7 +2,7 @@ import src.basis.d2d.polynomial_basis as pb
 import numpy as np
 from numpy import linalg as la
 import minimumradius as mr
-from src.helpers import weightmatrix as wm
+from test.helpers import weightmatrix_test as wm
 
 
 def coefficients(data, point, basis_order, contour_point, derivative=None):

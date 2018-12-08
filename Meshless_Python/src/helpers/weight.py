@@ -4,7 +4,7 @@ from numpy import linalg as la
 
 def gaussian_with_radius(dist, r, derivative=None):
     c = 100
-    exp1 = np.exp(-((la.norm(dist) / c) ** 2))
+    exp1 = np.exp(-((la.norm(dist) / c) ** 2))  # Variable in exp1 = xi - xj
     exp2 = np.exp(-((r / c) ** 2))
     if not derivative:
         if la.norm(dist) <= r:
@@ -13,7 +13,7 @@ def gaussian_with_radius(dist, r, derivative=None):
         else:
             return 0
 
-    # Derivadas dessa função peso:
+    # Weight function derivative:
     else:
         c1 = 1 / (1 - exp2)
 
@@ -26,10 +26,9 @@ def gaussian_with_radius(dist, r, derivative=None):
         else:
             axis = input('axis =')
 
-        # Primeira derivada da função peso
-        d1 = -2 * c1 * exp1 * axis / (c ** 2)
+        d1 = -2 * c1 * exp1 * axis / (c ** 2)  # Weight function first derivative
 
-        d2 = -2 * c1 * (c ** 2 - 2 * axis ** 2) * exp1 / (c ** 4)  # Segunda derivada da função peso
+        d2 = -2 * c1 * (c ** 2 - 2 * axis ** 2) * exp1 / (c ** 4)  # Weight functions second derivative
 
         dxy = 4 * c1 * axis * exp1 / (c ** 4)
 

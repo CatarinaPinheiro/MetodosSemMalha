@@ -1,6 +1,6 @@
 import coefficients as cf
 import basis as b
-import pdefunction as pdefunc
+from src.models import pdefunction as pdefunc
 from enum import Enum
 
 

@@ -67,4 +67,13 @@ def domain_function(point):
     return 0
 
 
+pde_data = Rectangle(0, 0, 5, 5).cartesian
+boundary = MeshlessMethod(pde_data).boundary_data
+
+boundary_list = [[x, y] for x, y in boundary]
+print('Boundary is ', boundary_list)
+
+print('Domain is', MeshlessMethod(pde_data).domain_data)
+
+print(len(MeshlessMethod(pde_data).domain_data))
 
