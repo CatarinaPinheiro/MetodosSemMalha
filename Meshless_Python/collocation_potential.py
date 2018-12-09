@@ -2,6 +2,7 @@ import coefficients as c
 import basis as b
 import pdefunc_potential as pdefunc
 import numpy as np
+import time
 
 pde_base_x = b.pde_basis(1)[1]
 pde_base_y = b.pde_basis(1)[2]
@@ -50,21 +51,22 @@ pde_contour_conditions = {
 }
 
 
-def lphi(data, first_x, last_x, first_y, last_y, basis_order, contour_point):
+def lphi(data, first_x, last_x, first_y, last_y, basis_order):
     result = []
     for point in data:
         clazz = pdefunc.pde_contour_class(point, first_x, last_x, first_y, last_y)
-        print(point)
+        start_time = time.time()
         if pdefunc.pde_contour_class(point, first_x, last_x, first_y, last_y) is None:
-            cx = c.coefficients(data, point, basis_order, contour_point, pde_differential_x)
-            cy = c.coefficients(data, point, basis_order, contour_point, pde_differential_y)
+            cx = c.coefficients(data, point, basis_order, pde_differential_x)
+            cy = c.coefficients(data, point, basis_order, pde_differential_y)
             result.append(np.add(cx[0], cy[0]))
         else:
             cond = pde_contour_conditions[clazz]
             if cond['kind'] == 'dirichlet':
-                cd = c.coefficients(data, point, basis_order, contour_point)
+                cd = c.coefficients(data, point, basis_order)
                 result.append(cd[0])
             elif cond['kind'] == 'neumann':
-                cn = c.coefficients(data, point, basis_order, contour_point, cond)
+                cn = c.coefficients(data, point, basis_order, cond)
                 result.append(cn[0])
+        print(time.time() - start_time)
     return result

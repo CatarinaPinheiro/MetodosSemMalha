@@ -2,14 +2,17 @@ import collocation_potential as cp
 import result_vector_potential as rvp
 import nodalcoordinates as nc
 from scipy import linalg as la
+import time
+
+start_time = time.time()
 
 size_ix = 1  # Initial size in y domain
 size_iy = 1  # Initial size in x domain
 size_x = 6  # Size in x domain
 size_y = 6  # Size in y domain
 
-k = 2  # Domain division
-kc = 4
+k = 5  # Domain division
+kc = 6
 
 # Domain:
 
@@ -34,9 +37,11 @@ pde_data = domain + contour
 
 print(len(pde_data))
 
-phi = cp.lphi(pde_data, size_ix, size_x, size_iy, size_y, 1, contour)
+phi = cp.lphi(pde_data, size_ix, size_x, size_iy, size_y, 1)
 
 b = rvp.b_matrix(pde_data, size_ix, size_x, size_iy, size_y)
 
 answer = la.solve(phi, b)
 print(answer)
+
+print("finalizado em %s segundos"%(time.time() - start_time))

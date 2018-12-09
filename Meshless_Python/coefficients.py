@@ -20,7 +20,6 @@ def coefficients(data, point, basis_order, derivative=None):
         A = B @ P
         _, det = la.slogdet(A)
         determinante = det
-        print(determinante)
         if det < np.log(1e-6) and m < len(data) - 1:
             r *= 1.05
             continue
@@ -28,11 +27,6 @@ def coefficients(data, point, basis_order, derivative=None):
             pass
 
         if not derivative:
-            print('A = ', A)
-            print('B = ', B)
-            print('P = ', P)
-            print('r = ', r)
-            print('W = ', weight_)
             return pt @ la.inv(A) @ B
 
         else:
