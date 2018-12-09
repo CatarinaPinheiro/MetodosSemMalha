@@ -12,7 +12,7 @@ def coefficients(data, point, basis_order, contour_point, derivative=None):
 
     while True:
         P = pb.Polynomial(2)
-            bm.create_basis(basis, data, point, r)  # Basis matrix
+        bm.create_basis(basis, data, point, r)  # Basis matrix
         Pt = np.transpose(P)
         weight_ = wm.W(data, point, r)
         pt = bm.create_basis(basis, [point])
