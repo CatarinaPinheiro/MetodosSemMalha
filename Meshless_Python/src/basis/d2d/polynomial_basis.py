@@ -33,16 +33,18 @@ class PolynomialBasis:  # Defines basis configuration of pde.
     def matrix(self,  data, point=None, r=None,  derivative=None):
         if derivative is None:
             basis = self.basis
-        elif derivative == 'x':
-            basis = self.basis_x
-        elif derivative == 'xx':
-            basis = self.basis_xx
-        elif derivative == 'y':
-            basis = self.basis_y
-        elif derivative == 'yy':
-            basis = self.basis_yy
-        elif derivative == 'xy':
-            basis = self.basis_xy
+        if derivative['order'] == 1:
+            if derivative['var'] == 'x':
+                basis = self.basis_x
+            elif derivative == 'y':
+                basis = self.basis_y
+        elif derivative['order'] == 2:
+            if derivative == 'xx':
+                basis = self.basis_xx
+            elif derivative == 'yy':
+                basis = self.basis_yy
+            elif derivative == 'xy':
+                basis = self.basis_xy
         else:
             basis = input('Basis: ')
 

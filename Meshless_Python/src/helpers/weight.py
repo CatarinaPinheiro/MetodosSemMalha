@@ -17,11 +17,11 @@ def gaussian_with_radius(dist, r, derivative=None):
     else:
         c1 = 1 / (1 - exp2)
 
-        if derivative == 'x' or derivative == 'xx':
+        if derivative['var'] == 'x' or derivative['var'] == 'xx':
             axis = dist[0]
-        elif derivative == 'y' or derivative == 'yy':
+        elif derivative['var'] == 'y' or derivative['var'] == 'yy':
             axis = dist[1]
-        elif derivative == 'xy':
+        elif derivative['var'] == 'xy':
             axis = dist[0] * dist[1]
         else:
             axis = input('axis =')
@@ -32,9 +32,11 @@ def gaussian_with_radius(dist, r, derivative=None):
 
         dxy = 4 * c1 * axis * exp1 / (c ** 4)
 
-        if derivative == 'x' or derivative == 'y':
+        if derivative['order'] == 1:
             return d1
-        elif derivative == 'xx' or derivative == 'yy':
+        elif derivative['order'] == 2 and derivative['var'] != 'xy':
             return d2
-        elif derivative == 'xy':
+        elif derivative['order'] == 2 and derivative['var'] == 'xy':
             return dxy
+        else:
+            return input('Weight derivative: ')

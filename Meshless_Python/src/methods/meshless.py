@@ -2,7 +2,6 @@ from scipy.spatial import Delaunay
 import numpy as np
 from numpy import linalg as la
 from src.helpers import unique_rows
-from src.geometry.rectangle import Rectangle
 
 
 def get_radius(self, point, m):
@@ -39,7 +38,6 @@ class MeshlessMethod:
 
         boundary_data = unique_rows(boundary_data_initial)
 
-
         return boundary_data
 
     @property
@@ -63,8 +61,5 @@ def boundary_function(point):
         raise ValueError("point not in boundary")
 
 
-def domain_function(point):
+def domain_function():  # domain_function(point)
     return 0
-
-
-
