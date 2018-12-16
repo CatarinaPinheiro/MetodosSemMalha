@@ -2,6 +2,8 @@ from scipy.spatial import Delaunay
 import numpy as np
 from numpy import linalg as la
 from src.helpers import unique_rows
+from src.helpers import duration
+from src.methods import mls2d as mls
 
 
 def get_radius(self, point, m):
@@ -16,8 +18,47 @@ def get_radius(self, point, m):
 
 
 class MeshlessMethod:
-    def __init__(self, data):
+    def __init__(self, data, basis, domain_function, domain_operator, boundary_operator, boundary_function):
         self.data = data
+        self.basis = basis
+        self.domain_function = domain_function
+        self.domain_operator = domain_operator
+        self.boundary_operator = boundary_operator
+        self.boundary_operator = boundary_operator
+        self.m2d = mls.MovingLeastSquares2D(self.data, self.basis)
+
+    def solve(self):
+        lphi = []
+        b = []
+
+        for i, d in enumerate(self.data):
+
+            duration.duration.start("%d/%d" % (i, len(self.data)))
+            self.m2d.point = d
+
+            if d in self.domain_data:
+
+                def integration_element(integration_point, i):
+                    if found:
+                        return value[i]
+                    else:
+                        self.m2d.point = integration_point
+                        phi = self.m2d.numeric_phi
+                        value = phi.eval(d)[0] * self.integration_weight(d, integration_point, radius)
+                        return value[i]
+
+                lphi.append(
+                    [self.integration(d, radius, lambda p: integration_element(p, i)) for i in range(len(self.data))])
+                b.append(self.integration(d, radius, self.domain_function))
+
+            elif d in self.boundary_data:
+
+                lphi.append(self.boundary_operator(self.m2d.numeric_phi, d).eval(d)[0])
+
+                b.append(self.boundary_function(self.m2d.point))
+            duration.duration.step()
+
+        return la.solve(lphi, b)
 
     @property
     def boundary_data(self):
@@ -44,6 +85,7 @@ class MeshlessMethod:
     def domain_data(self):
         boundary_list = [[x, y] for x, y in self.boundary_data]
         return [x for x in self.data if x not in boundary_list]
+
 
 ########################################
 

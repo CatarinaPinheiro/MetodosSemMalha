@@ -33,6 +33,8 @@ class MovingLeastSquares2D:
             if np.linalg.det(np.array(self.AB(ri))) < 1e-9:
                 ri *= 1.05
                 continue
+            else:
+                pass
 
             A, B = self.AB(ri)
 
